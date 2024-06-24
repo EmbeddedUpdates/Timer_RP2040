@@ -1,9 +1,9 @@
 
 /**
- * @file Timer_RP2040.c
+ * @file 
  * @author pflaherty
- * @date 06.23.2024
- * @brief Timer_RP2040 initializes, manages, and clears 
+ * @date 
+ * @brief 
  * 
  * COMPONENT: 
  * VERSION: 
@@ -20,7 +20,7 @@
 /************************************************************
   INCLUDES
 ************************************************************/
-#include "Timer_RP2040.h"
+#Include "Timer_RP2040_SFR.h"
 /************************************************************
   ENUMS AND TYPEDEFS
 ************************************************************/
