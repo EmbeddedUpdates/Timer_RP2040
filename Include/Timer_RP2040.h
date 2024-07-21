@@ -23,15 +23,44 @@
   DEFINES
 ************************************************************/
 
+#define ALARM0_INDEX 0
+#define ALARM1_INDEX 1
+#define ALARM2_INDEX 2
+#define ALARM3_INDEX 3
+#define ALARM_MAX_INDEX ALARM3_INDEX
+
+#define TIMER_RP2040_ALLALARMS_BITMASK 0x0000000F
+#define TIMER_RP2040_ALLINTERRUPTS_BITMASK TIMER_RP2040_ALLALARMS_BITMASK
+
 /************************************************************
   INCLUDES
 ************************************************************/
 #include "Platform_Types.h"
 #include "Timer_RP2040_SFR.h"
+#include "Watchdog_RP2040.h"
 
 /************************************************************
   ENUMS AND TYPEDEFS
 ************************************************************/
+
+/* ENUM for tracking the init status of the module. */
+typedef enum Timer_RP2040_Status_Tag {
+  TIMER_RP2040_UNINIT = 0,
+  TIMER_RP2040_INIT = 1,
+  TIMER_RP2040_INVALID = 0xFF
+} tTimer_RP2040_Status;
+
+/* Check alarm status results - useful for polling mode where we want to see if an alarm has been triggered */
+typedef enum Timer_RP2040_AlarmStatus_Tag {
+  /* Alarm not set and Interrupt not set */
+  TIMER_RP2040_ALARM_NOT_SET =           0,
+  /* Alarm set and Interrupt not set */
+  TIMER_RP2040_ALARM_SET_NOT_TRIGGERED = 1,
+  /* Interrupt flag for alarm is set */
+  TIMER_RP2040_ALARM_TRIGGERED =         2,
+  /* Something has gone wrong or an invalid request was made */
+  TIMER_RP2040_ALARM_FAILED =            0xFF
+} tTimer_RP2040_AlarmStatus
 
 /************************************************************
   EXTERN FUNCTIONS
@@ -77,7 +106,7 @@ extern Std_ErrorCode Timer_RP2040_Deinit ( void );
 /**
  * Writes directly to the TIMER_INTE register, given an uint8 bitmask. Will report a parameter failure if the bitmask
  * parameter is not within the acceptable range [1,15]. Will not disable, clear, or otherwise touch alarms.
- * @param int_bitmask: Bitmask for which interrupts should be enabled. Acceptable values are between (and including) 1d (0b0001) and 15d (0b1111)
+ * @param bmp_intEnable: bitmap for which interrupts should be enabled. Acceptable values are between (and including) 1d (0b0001) and 15d (0b1111)
  *
  * @return 
  *         0: 'E_OK' if successful 
@@ -90,7 +119,7 @@ extern Std_ErrorCode Timer_RP2040_Deinit ( void );
  * @invariant n/a
  *
  */
-extern Std_ErrorCode Timer_RP2040_InterruptEnable (  uint8  int_bitmask );
+extern Std_ErrorCode Timer_RP2040_InterruptEnable ( uint32 bmp_intEnable );
 
 /**
  * Writes directly to the TIMER_INTE register, given an uint8 bitmask. Will report a parameter failure if the bitmask
@@ -108,7 +137,7 @@ extern Std_ErrorCode Timer_RP2040_InterruptEnable (  uint8  int_bitmask );
  * @invariant n/a
  *
  */
-extern Std_ErrorCode Timer_RP2040_InterruptDisable (  uint8  int_bitmask );
+extern Std_ErrorCode Timer_RP2040_InterruptDisable (  uint8  bmp_intDisable );
 
 /**
  * Reads from TIMER_TIMELR and TIMER_TIMEHR. Is not threadsafe - future improvements can be made by utilizing the RAWL
@@ -200,3 +229,21 @@ extern uint8 Timer_RP2040_CheckAlarmN (  uint8  alarmIndex );
  */
 extern Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex );
 
+
+/**
+ * Disables the alarm indicated by index 'alarmIndex'. rites to the TIMER_ARMED register to disarm the alarm indicated
+ * by the 'alarmIndex'. Reports OK if successful, and NOT_OK if failed. Checks input parameter is within range [0:3]
+ * @param alarmIndex: Index of Alarm to be checked, must be within range [0:3].
+ *
+ * @return 
+ *         0: 'E_OK' if successful 
+ *         1: 'E_NOT_OK' if the operation is not successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ *         3: 'E_MODULE_UNINIT' if the timer is not yet initialized
+ *
+ * @pre n/a
+ * @post n/a
+ * @invariant n/a
+ *
+ */
+extern Std_ErrorCode Timer_RP2040_ArmAlarmN (  uint8  alarmIndex, uint32 triggerTime );
