@@ -60,7 +60,7 @@ typedef enum Timer_RP2040_AlarmStatus_Tag {
   TIMER_RP2040_ALARM_TRIGGERED =         2,
   /* Something has gone wrong or an invalid request was made */
   TIMER_RP2040_ALARM_FAILED =            0xFF
-} tTimer_RP2040_AlarmStatus
+} tTimer_RP2040_AlarmStatus;
 
 /************************************************************
   EXTERN FUNCTIONS

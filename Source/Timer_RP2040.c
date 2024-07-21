@@ -324,6 +324,7 @@ Std_ErrorCode Timer_RP2040_Init ( void )
   }
 
   return retVal;
+
 }
 
 
@@ -554,8 +555,8 @@ Std_ErrorCode Timer_RP2040_TimerWrite (  uint32 *  TimerHigh,  uint32 *  TimerLo
   if( E_OK == retVal)
   {
     /* Must write to TIMELW before TIMEHW */
-    retVal |= Timer_RP2040_WriteTimerLow(TimerLow);
-    retVal |= Timer_RP2040_WriteTimerHigh(TimerHigh);
+    retVal |= Timer_RP2040_WriteTimerLow(*TimerLow);
+    retVal |= Timer_RP2040_WriteTimerHigh(*TimerHigh);
   }
 
   return retVal;
@@ -629,7 +630,7 @@ tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN ( uint8 alarmIndex )
     if( ZERO32 == *TIMER_REG_ALARMn(alarmIndex) )
     {
       /* here, we may have triggered the alarm already, so the interrupt must be checked. */
-      if( ZERO32 != (*TIMER_REG_INTS && (INT_TO_BITMAP(alarmIndex))) )
+      if( ZERO32 != (*TIMER_REG_INTS & (INT_TO_BITMAP(alarmIndex))) )
       {
         /* 00 !=  (0b0001 && (0b0001)) -> Interrupt is set. */
         retVal = TIMER_RP2040_ALARM_TRIGGERED;
