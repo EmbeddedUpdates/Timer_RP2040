@@ -342,7 +342,46 @@ Std_ErrorCode Timer_RP2040_Init ( void )
  */
 Std_ErrorCode Timer_RP2040_Deinit ( void )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Check that the module was previously init */
+  if( TIMER_RP2040_INIT != Timer_RP2040_Status )
+  {
+    retVal = E_MODULE_UNINIT;
+  }
+
+  /* Pause the timer */
+  if( E_OK == retVal )
+  {
+    retVal = Timer_RP2040_Pause();
+  }
+
+  /* Disable all alarms */
+  if( E_OK == retVal )
+  {
+    /* Disable all 4 possible alarms */
+    /* Possible improvement to provide 'DisableAllAlarms' API or 'DisableAlarmBitmask' API */
+    retVal |= Timer_RP2040_DisarmAlarmN(ALARM0_INDEX);
+    retVal |= Timer_RP2040_DisarmAlarmN(ALARM1_INDEX);
+    retVal |= Timer_RP2040_DisarmAlarmN(ALARM2_INDEX);
+    retVal |= Timer_RP2040_DisarmAlarmN(ALARM3_INDEX);
+  }
+
+  /* Disable all interrupts */
+  if( E_OK == retVal )
+  {
+    /* Disable all 4 possible alarms */
+    retVal |= Timer_RP2040_InterruptDisable( TIMER_RP2040_ALLALARMS_BITMASK );
+  }
+
+  /* Change module status */
+  if( E_OK == retVal )
+  {
+    Timer_RP2040_Status = TIMER_RP2040_UNINIT;
+  }
+
+  return retVal;
+
 }
 
 
