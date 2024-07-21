@@ -579,7 +579,21 @@ Std_ErrorCode Timer_RP2040_TimerWrite (  uint32 *  TimerHigh,  uint32 *  TimerLo
  */
 Std_ErrorCode Timer_RP2040_TimerRead32 (  uint32 *  TimerLow )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Check to make sure pointer won't cause an exception */
+  if( NULL == TimerLow )
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  if( E_OK == retVal )
+  {
+    /* read only from RAW-L register. No side-effects.*/
+    *TimerLow = *TIMER_REG_TIMERAWL;
+  }
+
+  return retVal;
 }
 
 
