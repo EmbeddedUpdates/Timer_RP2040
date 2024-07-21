@@ -10,13 +10,13 @@
 * trigger interrupts.
 * 
 * @COMPONENT: TIMER_RP2040
-* @VERSION: 00.01.00 
+* @VERSION: 01.01.00 
 */
 /************************************************************
   Version History
   -----------------------------------------------------------
-  Revision |  Author   |  Change ID  |  Description
-  00.00.00 |  AUTHOR   |  DRAFT      |  Initial Creation
+  Revision |  Author   |  Change ID      |  Description
+  01.01.00 |  Madrick3 |  SkeletonDraft  |  Initial Creation from code-template generator.
 ************************************************************/
 
 /************************************************************
@@ -617,7 +617,7 @@ tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN ( uint8 alarmIndex )
 
   /* First check the alarm index is in a reasonable range */
   if( alarmIndex <= ALARM_MAX_INDEX )
-{
+  {
     /* Assume the alarm is not set. */
     retVal = TIMER_RP2040_ALARM_NOT_SET;
   }

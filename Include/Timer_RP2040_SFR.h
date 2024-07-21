@@ -2,15 +2,24 @@
 /**
  * @file Timer_RP2040_SFR.h
  * @author pflaherty
- * @date 06.23.2024
+ * @date 07.21.2024
  * @brief SFR definitions for the RP2040 Timer from RP2040 datasheet Chapter 4.6.5
  * 
  * COMPONENT: Timer_RP2040
- * VERSION: 01.00.00
+ * VERSION: 01.01.00
  *
  * Change History
  * 06.23.2024 - pflaherty - Initial Creation
+ * 07.21.2024 - pflaherty - Integration to skeleton code from template generator
  */
+
+/************************************************************
+  Version History
+  -----------------------------------------------------------
+  Revision |  Author   |  Change ID |  Description
+  01.00.00 |  Madrick3 |  draft     |  Initial Creation.
+  01.01.00 |  Madrick3 |  skeleton  |  Integration for initial testing
+************************************************************/
 
 /************************************************************
   INCLUDES

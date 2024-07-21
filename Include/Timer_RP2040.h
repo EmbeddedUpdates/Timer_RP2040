@@ -10,13 +10,13 @@
 * trigger interrupts.
 * 
 * @COMPONENT: TIMER_RP2040
-* @VERSION: 00.01.00 
+* @VERSION: 01.01.00 
 */
 /************************************************************
   Version History
   -----------------------------------------------------------
   Revision |  Author   |  Change ID  |  Description
-  00.00.00 |  AUTHOR   |  DRAFT      |  Initial Creation
+  01.01.00 |  Madrick3 |  Skeleton   |  Initial Creation
 ************************************************************/
 
 /************************************************************
