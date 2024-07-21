@@ -57,7 +57,28 @@ static tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
  */
 static Std_ErrorCode Timer_RP2040_Pause ( void )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* No prechecks are performed for the write - so that the pause may be performed even during init */
+
+
+  /* if pre-checks are performed, lets do the actual pause. */
+  if( E_OK == retVal )
+  {
+    *TIMER_REG_PAUSE = (TIMER_PAUSE_MASK & TIMER_PAUSE_SET);
+  }
+
+  /* Check to see if the timer is paused - if it is, return ok, otherwise report notok */
+  if( E_OK == retVal )
+  {
+    if( TIMER_PAUSE_SET != (*TIMER_REG_PAUSE & TIMER_PAUSE_MASK) )
+    {
+      /* Timer was not paused - report an error. */
+      retVal = E_NOT_OK;
+    }
+  }
+
+  return retVal;
 }
 
 /**
