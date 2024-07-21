@@ -500,7 +500,25 @@ Std_ErrorCode Timer_RP2040_InterruptDisable (  uint8  bmp_intDisable )
  */
 Std_ErrorCode Timer_RP2040_TimerRead (  uint32 *  TimerHigh,  uint32 *  TimerLow )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Check the input parameter is a reasonable address */
+  if( (NULL == TimerHigh) || (NULL == TimerLow))
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  /* module does not need to be init for reads. No init-check performed. */
+
+  /* Perform both reads independently */
+  if( E_OK == retVal)
+  {
+    /* Must read TIMELR before TIMEHR */
+    retVal |= Timer_RP2040_ReadTimerLow(TimerLow);
+    retVal |= Timer_RP2040_ReadTimerHigh(TimerHigh);
+  }
+
+  return retVal;
 }
 
 
