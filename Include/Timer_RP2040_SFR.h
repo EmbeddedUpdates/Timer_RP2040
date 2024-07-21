@@ -16,7 +16,7 @@
   INCLUDES
 ************************************************************/
 //#include "Generic_SFR.h"
-#define SFR_IOS(x) = ((unsigned long *)(x))
+#define SFR_IOS(x) ((unsigned long *)(x))
 /************************************************************
   DEFINES
 ************************************************************/
@@ -32,6 +32,8 @@
 #define TIMER_REG_ALARM1_OFFSET         0x14uL
 #define TIMER_REG_ALARM2_OFFSET         0x18uL
 #define TIMER_REG_ALARM3_OFFSET         0x1CuL
+/* Function like-macro for accessing ALARM based on index */
+#define TIMER_REG_ALARMn_OFFSET(n)      (0x10uL + (0x04uL*n))
 #define TIMER_REG_ARMED_OFFSET          0x20uL
 #define TIMER_REG_TIMERAWH_OFFSET       0x24uL
 #define TIMER_REG_TIMERAWL_OFFSET       0x28uL
@@ -51,6 +53,7 @@
 #define TIMER_REG_ALARM1                SFR_IOS(TIMER_BASE + TIMER_REG_ALARM1_OFFSET)
 #define TIMER_REG_ALARM2                SFR_IOS(TIMER_BASE + TIMER_REG_ALARM2_OFFSET)
 #define TIMER_REG_ALARM3                SFR_IOS(TIMER_BASE + TIMER_REG_ALARM3_OFFSET)
+#define TIMER_REG_ALARMn(n)             SFR_IOS(TIMER_BASE + TIMER_REG_ALARMn_OFFSET(n))
 #define TIMER_REG_ARMED                 SFR_IOS(TIMER_BASE + TIMER_REG_ARMED_OFFSET)
 #define TIMER_REG_TIMERAWH              SFR_IOS(TIMER_BASE + TIMER_REG_TIMERAWH_OFFSET)
 #define TIMER_REG_TIMERAWL              SFR_IOS(TIMER_BASE + TIMER_REG_TIMERAWL_OFFSET)
@@ -60,6 +63,13 @@
 #define TIMER_REG_INTE                  SFR_IOS(TIMER_BASE + TIMER_REG_INTE_OFFSET)
 #define TIMER_REG_INTF                  SFR_IOS(TIMER_BASE + TIMER_REG_INTF_OFFSET)
 #define TIMER_REG_INTS                  SFR_IOS(TIMER_BASE + TIMER_REG_INTS_OFFSET)
+
+/* Set high to pause the timer - low to unpause. */
+#define TIMER_PAUSE_MASK                0x00000001
+#define TIMER_PAUSE_SET                 0x00000001
+#define TIMER_PAUSE_CLR                 0x00000000
+
+
 /************************************************************
   ENUMS AND TYPEDEFS
 ************************************************************/
