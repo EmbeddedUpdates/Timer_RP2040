@@ -387,7 +387,7 @@ Std_ErrorCode Timer_RP2040_Deinit ( void )
 
 /**
  * Enables interrupts for the ALARMS given by the bitmask parameter.
- * @param int_bitmask: Bitmask for which interrupts should be enabled. Acceptable values are between (and including) 1d (0b0001) and 15d (0b1111)
+ * @param bmp_intEnable: bitmap for which interrupts should be enabled. Acceptable values are between (and including) 1d (0b0001) and 15d (0b1111)
  *
  * @return 
  *         0: 'E_OK' if successful 
@@ -400,9 +400,36 @@ Std_ErrorCode Timer_RP2040_Deinit ( void )
  * @invariant n/a
  *
  */
-Std_ErrorCode Timer_RP2040_InterruptEnable (  uint8  int_bitmask )
+Std_ErrorCode Timer_RP2040_InterruptEnable (  uint32 bmp_intEnable )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+  
+  /* Check that the module was previously init */
+  if( TIMER_RP2040_INIT != Timer_RP2040_Status )
+  {
+    retVal = E_MODULE_UNINIT;
+  }
+
+  /* 
+    a value greater than '15' would be invalid. 
+    acceptable range: [0b0001-0b1111]  
+  */
+  if( bmp_intEnable > TIMER_RP2040_ALLINTERRUPTS_BITMASK ){
+    retVal = E_INVALID_PARAM;
+  }
+
+  /* input parameter is a bitmap, zero would do nothing. */
+  if( bmp_intEnable == 0 ){
+    retVal = E_INVALID_PARAM;
+  }
+
+  /* Write to the INTE register with the bitmask */
+  if( E_OK == retVal )
+  {
+    *TIMER_REG_INTE = bmp_intEnable;
+  }
+
+  return retVal;
 }
 
 
