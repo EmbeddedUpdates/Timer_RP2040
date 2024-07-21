@@ -178,9 +178,31 @@ static Std_ErrorCode Timer_RP2040_ReadTimerLow ( uint32 * TimerLow )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_ReadTimerHigh (  uint32 *  TimerHigh )
+static Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Check the input parameter is a reasonable address */
+  if( NULL == TimerHigh )
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  /* Confirm that the module has been initialized already - otherwise report error */
+  if( Timer_RP2040_Status != TIMER_RP2040_INIT )
+  {
+    retVal = E_MODULE_UNINIT;
+  }
+
+  /* if pre-checks are performed, read from the register. */
+  if( E_OK == retVal )
+  {
+    *TimerHigh = *TIMER_REG_TIMEHR;
+  }
+
+  /* No post-checks are considered for this read. */
+  
+  return retVal;
 }
 
 /**
