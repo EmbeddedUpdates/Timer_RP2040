@@ -291,7 +291,39 @@ static Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh )
  */
 Std_ErrorCode Timer_RP2040_Init ( void )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Implement pre-check with the RP2040 Watchdog */
+  if( WATCHDOG_RP2040_INIT != Watchdog_RP2040_IsInit())
+  {
+    retVal = E_NOT_OK;
+  }
+
+  /* First lets pause and clear the timer */
+  if( E_OK == retVal ){
+    retVal = Timer_RP2040_Pause();
+    if( E_OK == retVal ){
+      retVal = Timer_RP2040_TimerWrite(ZERO32, ZERO32);
+    }
+  }
+
+  /* Now, lets prepare an alarm */
+  if( E_OK == retVal ){
+    /* Sets alarm0 for 1000us (1ms) */
+    retVal = Timer_RP2040_ArmAlarmN(ALARM0_INDEX, 1000);
+  }
+
+  /* First lets unpause the timer */
+  if( E_OK == retVal ){
+    retVal = Timer_RP2040_Unpause();
+  }
+
+  /* If everything was successful, lets update the init status. */
+  if( E_OK == retVal ){
+    Timer_RP2040_Status = TIMER_RP2040_INIT;
+  }
+
+  return retVal;
 }
 
 
