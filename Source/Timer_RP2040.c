@@ -219,9 +219,21 @@ static Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_WriteTimerLow (  uint32  TimerLow )
+static Std_ErrorCode Timer_RP2040_WriteTimerLow ( uint32 TimerLow )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* No prechecks are performed for the write - so that the write may be performed even during init */
+
+  /* if pre-checks are performed, write to the register. */
+  if( E_OK == retVal )
+  {
+    *TIMER_REG_TIMELW = TimerLow;
+  }
+
+  /* No post-checks are considered for this write . */
+  
+  return retVal;
 }
 
 /**
