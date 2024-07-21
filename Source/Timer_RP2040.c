@@ -599,20 +599,55 @@ Std_ErrorCode Timer_RP2040_TimerRead32 (  uint32 *  TimerLow )
 
 /**
  * Reads the timer from TIMER_TIMERAWL - stores the result in the buffer provided.
- * @param alarmIndex: Index of Alarm to be disarmed, must be within range [0:3].
+ * @param alarmIndex: Index of Alarm to be checked, must be within range [0:3].
  *
  * @return 
- *         0: if the alarm is not triggered.
- *         1: if the alarm is triggered.
+ *         0: if the alarm is has been triggered.
+ *         1: if the alarm is set.
+ *         0xFF: if there was an issue in processing the request
  *
  * @pre n/a
  * @post n/a
  * @invariant n/a
  *
  */
-uint8 Timer_RP2040_CheckAlarmN (  uint8  alarmIndex )
+tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN ( uint8 alarmIndex )
 {
-  /* Empty Function Stub */
+  tTimer_RP2040_AlarmStatus retVal = TIMER_RP2040_ALARM_FAILED;
+
+  /* First check the alarm index is in a reasonable range */
+  if( alarmIndex <= ALARM_MAX_INDEX )
+{
+    /* Assume the alarm is not set. */
+    retVal = TIMER_RP2040_ALARM_NOT_SET;
+  }
+
+  /* If the alarm index is ok - lets read from the relevant alarm register to see the status */
+  if( retVal != TIMER_RP2040_ALARM_FAILED )
+  {
+    /* if the alarm is zero,*/
+    if( ZERO32 == *TIMER_REG_ALARMn(alarmIndex) )
+    {
+      /* here, we may have triggered the alarm already, so the interrupt must be checked. */
+      if( ZERO32 != (*TIMER_REG_INTS && (INT_TO_BITMAP(alarmIndex))) )
+      {
+        /* 00 !=  (0b0001 && (0b0001)) -> Interrupt is set. */
+        retVal = TIMER_RP2040_ALARM_TRIGGERED;
+      }
+    }
+    else
+    {
+      /* If there is a value in the alarm register, we know its not yet been triggered. */
+      retVal = TIMER_RP2040_ALARM_SET_NOT_TRIGGERED;
+    }
+  }
+
+  /* 
+    There is an interesting case where the alarm is set and the interrupt is set. This seems problematic in use,
+    but could be considered here. 
+  */
+
+  return retVal;
 }
 
 
