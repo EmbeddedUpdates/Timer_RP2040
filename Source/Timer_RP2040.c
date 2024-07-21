@@ -700,9 +700,26 @@ Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex )
  * @invariant n/a
  *
  */
-Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex )
+Std_ErrorCode Timer_RP2040_ArmAlarmN (  uint8  alarmIndex, uint32 triggerTime )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* First check the alarm index is in a reasonable range */
+  if( alarmIndex > ALARM_MAX_INDEX )
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  if( ZERO32 == triggerTime )
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  if( E_OK == retVal )
+  {
+    /* The alarm index is ok, so we can write to the register */
+    *TIMER_REG_ALARMn(alarmIndex) = triggerTime;
+  }
+  
+  return retVal;
 }
-
-
