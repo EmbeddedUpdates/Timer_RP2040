@@ -657,6 +657,40 @@ tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN ( uint8 alarmIndex )
  *
  * @return 
  *         0: 'E_OK' if successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ *
+ * @pre n/a
+ * @post n/a
+ * @invariant n/a
+ *
+ */
+Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex )
+{
+  Std_ErrorCode retVal = E_OK;
+
+  /* First check the alarm index is in a reasonable range */
+  if( alarmIndex > ALARM_MAX_INDEX )
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  if( E_OK == retVal )
+  {
+    /* The alarm index is ok, so we can write to the register */
+    *TIMER_REG_ALARMn(alarmIndex) = ZERO32;
+  }
+  
+  return retVal;
+
+}
+
+/**
+ * Writes to the TIMER_ARMED register to disarm the alarm indicated by the 'alarmIndex'.
+ * @param alarmIndex: Index of Alarm to be checked, must be within range [0:3].
+ * @param triggerTime: 32 bit value for the alarm. The alarm will trigger when TIMER_ALARMn == TIMER_TIMELR.
+ *
+ * @return 
+ *         0: 'E_OK' if successful 
  *         1: 'E_NOT_OK' if the operation is not successful 
  *         2: 'E_PARAM' if the input parameter is not valid 
  *         3: 'E_MODULE_UNINIT' if the timer is not yet initialized
