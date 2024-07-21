@@ -97,7 +97,28 @@ static Std_ErrorCode Timer_RP2040_Pause ( void )
  */
 static Std_ErrorCode Timer_RP2040_Unpause ( void )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* No prechecks are performed for the write - so that the unpause may be performed even during init */
+
+
+  /* if pre-checks are performed, lets do the actual unpause. */
+  if( E_OK == retVal )
+  {
+    *TIMER_REG_PAUSE = (TIMER_PAUSE_MASK & TIMER_PAUSE_CLR);
+  }
+
+  /* Check to see if the timer is unpaused - if it is, return ok, otherwise report notok */
+  if( E_OK == retVal )
+  {
+    if( TIMER_PAUSE_CLR != (*TIMER_REG_PAUSE & TIMER_PAUSE_MASK) )
+    {
+      /* Timer is paused - report an error. */
+      retVal = E_NOT_OK;
+    }
+  }
+  
+  return retVal;
 }
 
 /**
