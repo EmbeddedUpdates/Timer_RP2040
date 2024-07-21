@@ -540,7 +540,25 @@ Std_ErrorCode Timer_RP2040_TimerRead (  uint32 *  TimerHigh,  uint32 *  TimerLow
  */
 Std_ErrorCode Timer_RP2040_TimerWrite (  uint32 *  TimerHigh,  uint32 *  TimerLow )
 {
-  /* Empty Function Stub */
+  Std_ErrorCode retVal = E_OK;
+
+  /* Check the input parameter is a reasonable address */
+  if( (NULL == TimerHigh) || (NULL == TimerLow))
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  /* module does not need to be init for writes. No init-check performed. */
+
+  /* Perform both writes independently */
+  if( E_OK == retVal)
+  {
+    /* Must write to TIMELW before TIMEHW */
+    retVal |= Timer_RP2040_WriteTimerLow(TimerLow);
+    retVal |= Timer_RP2040_WriteTimerHigh(TimerHigh);
+  }
+
+  return retVal;
 }
 
 
