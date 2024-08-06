@@ -1,0 +1,147 @@
+# Path: ../Test/exe/Timer_RP2040_Test.out
+# Arch: arm64
+# Object files:
+[  0] linker synthesized
+[  1] /var/folders/9y/hd568fcs70xfw9m18lfx1v_40000gn/T/Timer_RP2040_TestRunner-a9a179.o
+[  2] /var/folders/9y/hd568fcs70xfw9m18lfx1v_40000gn/T/Timer_RP2040_Tests-0ea14e.o
+[  3] /var/folders/9y/hd568fcs70xfw9m18lfx1v_40000gn/T/Timer_RP2040-15efba.o
+[  4] /var/folders/9y/hd568fcs70xfw9m18lfx1v_40000gn/T/unity-8dec4e.o
+[  5] /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libSystem.tbd
+# Sections:
+# Address	Size    	Segment	Section
+0x100003390	0x000048F8	__TEXT	__text
+0x100007C88	0x00000030	__TEXT	__stubs
+0x100007CB8	0x00000037	__TEXT	__cstring
+0x100007CF0	0x00000242	__TEXT	__const
+0x100007F34	0x000000CC	__TEXT	__unwind_info
+0x100008000	0x00000028	__DATA_CONST	__got
+0x100008028	0x00000020	__DATA_CONST	__const
+0x10000C000	0x00000010	__DATA	__bss
+0x10000C010	0x00000198	__DATA	__common
+# Symbols:
+# Address	Size    	File  Name
+0x100003390	0x00000018	[  1] _resetTest
+0x1000033A8	0x0000009C	[  1] _main
+0x100003444	0x00000004	[  2] _setUp
+0x100003448	0x00000004	[  2] _tearDown
+0x10000344C	0x00000040	[  2] _test_Init_ReturnsOK
+0x10000348C	0x000000AC	[  3] _Timer_RP2040_Init
+0x100003538	0x00000074	[  3] _Timer_RP2040_Pause
+0x1000035AC	0x0000008C	[  3] _Timer_RP2040_TimerWrite
+0x100003638	0x00000078	[  3] _Timer_RP2040_ArmAlarmN
+0x1000036B0	0x00000064	[  3] _Timer_RP2040_Unpause
+0x100003714	0x000000F8	[  3] _Timer_RP2040_Deinit
+0x10000380C	0x00000058	[  3] _Timer_RP2040_DisarmAlarmN
+0x100003864	0x000000A4	[  3] _Timer_RP2040_InterruptDisable
+0x100003908	0x00000098	[  3] _Timer_RP2040_InterruptEnable
+0x1000039A0	0x00000084	[  3] _Timer_RP2040_TimerRead
+0x100003A24	0x0000007C	[  3] _Timer_RP2040_ReadTimerLow
+0x100003AA0	0x0000007C	[  3] _Timer_RP2040_ReadTimerHigh
+0x100003B1C	0x00000040	[  3] _Timer_RP2040_WriteTimerLow
+0x100003B5C	0x00000038	[  3] _Timer_RP2040_WriteTimerHigh
+0x100003B94	0x0000005C	[  3] _Timer_RP2040_TimerRead32
+0x100003BF0	0x000000A8	[  3] _Timer_RP2040_CheckAlarmN
+0x100003C98	0x00000060	[  4] _UnityPrint
+0x100003CF8	0x000000D0	[  4] _UnityPrintChar
+0x100003DC8	0x00000144	[  4] _UnityPrintLen
+0x100003F0C	0x000000BC	[  4] _UnityPrintNumberHex
+0x100003FC8	0x00000158	[  4] _UnityPrintNumberByStyle
+0x100004120	0x00000058	[  4] _UnityPrintNumber
+0x100004178	0x000000A8	[  4] _UnityPrintNumberUnsigned
+0x100004220	0x000000B0	[  4] _UnityPrintMask
+0x1000042D0	0x00000734	[  4] _UnityPrintFloat
+0x100004A04	0x000000A8	[  4] _UnityConcludeTest
+0x100004AAC	0x00000064	[  4] _UnityTestResultsBegin
+0x100004B10	0x000000F4	[  4] _UnityAssertBits
+0x100004C04	0x00000044	[  4] _UnityTestResultsFailBegin
+0x100004C48	0x000000AC	[  4] _UnityAddMsgIfSpecified
+0x100004CF4	0x000000E4	[  4] _UnityAssertEqualNumber
+0x100004DD8	0x00000258	[  4] _UnityAssertGreaterOrLessOrEqualNumber
+0x100005030	0x000003EC	[  4] _UnityAssertEqualIntArray
+0x10000541C	0x00000020	[  4] lJTI16_0
+0x10000543C	0x000000B8	[  4] _UnityIsOneArrayNull
+0x1000054F4	0x000003E8	[  4] _UnityAssertWithinFloatArray
+0x1000058DC	0x00000454	[  4] _UnityFloatsWithin
+0x100005D30	0x000000E8	[  4] _UnityAssertFloatsWithin
+0x100005E18	0x000000E0	[  4] _UnityAssertFloatsNotWithin
+0x100005EF8	0x000001B4	[  4] _UnityAssertGreaterOrLessFloat
+0x1000060AC	0x00000480	[  4] _UnityAssertFloatSpecial
+0x10000652C	0x00000024	[  4] lJTI23_0
+0x100006550	0x000001F0	[  4] _UnityAssertNumbersWithin
+0x100006740	0x00000568	[  4] _UnityAssertNumbersArrayWithin
+0x100006CA8	0x00000020	[  4] lJTI25_0
+0x100006CC8	0x00000194	[  4] _UnityAssertEqualString
+0x100006E5C	0x000000B0	[  4] _UnityPrintExpectedAndActualStrings
+0x100006F0C	0x000001C4	[  4] _UnityAssertEqualStringLen
+0x1000070D0	0x000000BC	[  4] _UnityPrintExpectedAndActualStringsLen
+0x10000718C	0x000002E0	[  4] _UnityAssertEqualStringArray
+0x10000746C	0x000002D8	[  4] _UnityAssertEqualMemory
+0x100007744	0x000000BC	[  4] _UnityNumToPtr
+0x100007800	0x00000024	[  4] _UnityFloatToPtr
+0x100007824	0x00000138	[  4] _UnityFail
+0x10000795C	0x000000BC	[  4] _UnityIgnore
+0x100007A18	0x00000070	[  4] _UnityMessage
+0x100007A88	0x000000B4	[  4] _UnityDefaultTestRun
+0x100007B3C	0x00000020	[  4] _UnitySetTestFile
+0x100007B5C	0x00000054	[  4] _UnityBegin
+0x100007BB0	0x000000D8	[  4] _UnityEnd
+0x100007C88	0x0000000C	[  5] ___stack_chk_fail.stub
+0x100007C94	0x0000000C	[  5] _longjmp.stub
+0x100007CA0	0x0000000C	[  5] _putchar.stub
+0x100007CAC	0x0000000C	[  5] _setjmp.stub
+0x100007CB8	0x00000014	[  1] literal string: test/Timer_RP2040.c
+0x100007CCC	0x00000014	[  1] literal string: test_Init_ReturnsOK
+0x100007CE0	0x00000002	[  4] literal string: 0
+0x100007CE2	0x00000004	[  4] literal string: nan
+0x100007CE6	0x00000004	[  4] literal string: inf
+0x100007CEA	0x00000005	[  4] literal string: INFO
+0x100007CF0	0x00000008	[  4] 8-byte-literal
+0x100007CF8	0x00000003	[  4] _UnityStrOk
+0x100007CFB	0x00000005	[  4] _UnityStrPass
+0x100007D00	0x00000005	[  4] _UnityStrFail
+0x100007D05	0x00000007	[  4] _UnityStrIgnore
+0x100007D0C	0x00000021	[  4] _UnityStrErrShorthand
+0x100007D2D	0x0000001E	[  4] _UnityStrErrFloat
+0x100007D4B	0x00000020	[  4] _UnityStrErrDouble
+0x100007D6B	0x00000021	[  4] _UnityStrErr64
+0x100007D8C	0x00000004	[  4] _UnityPrintFloat.sig_digits
+0x100007D90	0x00000004	[  4] _UnityPrintFloat.min_scaled
+0x100007D94	0x00000004	[  4] _UnityPrintFloat.max_scaled
+0x100007D98	0x0000000B	[  4] _UnityStrExpected
+0x100007DA3	0x00000006	[  4] _UnityStrWas
+0x100007DA9	0x00000015	[  4] _UnityStrGt
+0x100007DBE	0x00000012	[  4] _UnityStrLt
+0x100007DD0	0x0000000D	[  4] _UnityStrOrEqual
+0x100007DDD	0x00000015	[  4] _UnityStrNotEqual
+0x100007DF2	0x00000037	[  4] _UnityStrPointless
+0x100007E29	0x0000000A	[  4] _UnityStrElement
+0x100007E33	0x00000009	[  4] _UnityStrInf
+0x100007E3C	0x00000012	[  4] _UnityStrNegInf
+0x100007E4E	0x00000004	[  4] _UnityStrNaN
+0x100007E52	0x0000000C	[  4] _UnityStrDet
+0x100007E5E	0x00000014	[  4] _UnityStrInvalidFloatTrait
+0x100007E72	0x00000005	[  4] _UnityStrNot
+0x100007E77	0x0000001A	[  4] _UnityStrDelta
+0x100007E91	0x00000012	[  4] _UnityStrMemory
+0x100007EA3	0x00000007	[  4] _UnityStrByte
+0x100007EAA	0x0000000A	[  4] _UnityStrDetail1Name
+0x100007EB4	0x0000000B	[  4] _UnityStrDetail2Name
+0x100007EBF	0x00000003	[  4] _UnityStrSpacer
+0x100007EC2	0x00000018	[  4] _UnityStrBreaker
+0x100007EDA	0x00000008	[  4] _UnityStrResultsTests
+0x100007EE2	0x0000000B	[  4] _UnityStrResultsFailures
+0x100007EED	0x0000000A	[  4] _UnityStrResultsIgnored
+0x100007EF7	0x0000001D	[  4] _UnityStrNullPointerForExpected
+0x100007F14	0x00000019	[  4] _UnityStrNullPointerForActual
+0x100007F2D	0x00000005	[  4] _UnityStrNull
+0x100007F34	0x000000CC	[  0] compact unwind info
+0x100008000	0x00000008	[  5] non-lazy-pointer-to-local: ___stack_chk_fail
+0x100008008	0x00000008	[  0] non-lazy-pointer-to-local: ___stack_chk_guard
+0x100008010	0x00000008	[  5] non-lazy-pointer-to-local: _longjmp
+0x100008018	0x00000008	[  5] non-lazy-pointer-to-local: _putchar
+0x100008020	0x00000008	[  5] non-lazy-pointer-to-local: _setjmp
+0x100008028	0x00000020	[  4] l___const.UnityAssertFloatSpecial.trait_names
+0x10000C000	0x00000004	[  3] _Timer_RP2040_Status
+0x10000C008	0x00000008	[  4] _UnityQuickCompare
+0x10000C010	0x00000088	[  3] _TIMER
+0x10000C098	0x00000110	[  4] _Unity
