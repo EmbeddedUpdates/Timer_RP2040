@@ -36,7 +36,7 @@
 /************************************************************
   LOCAL VARIABLES
 ************************************************************/
-static tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
+TIMER_RP2040_LOCAL tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
 
 /************************************************************
   LOCAL FUNCTIONS
@@ -55,7 +55,7 @@ static tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_Pause ( void )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_Pause ( void )
 {
   Std_ErrorCode retVal = E_OK;
 
@@ -95,7 +95,7 @@ static Std_ErrorCode Timer_RP2040_Pause ( void )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_Unpause ( void )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_Unpause ( void )
 {
   Std_ErrorCode retVal = E_OK;
 
@@ -136,7 +136,7 @@ static Std_ErrorCode Timer_RP2040_Unpause ( void )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_ReadTimerLow ( uint32 * TimerLow )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_ReadTimerLow ( uint32 * TimerLow )
 {
   Std_ErrorCode retVal = E_OK;
 
@@ -178,7 +178,7 @@ static Std_ErrorCode Timer_RP2040_ReadTimerLow ( uint32 * TimerLow )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh )
 {
   Std_ErrorCode retVal = E_OK;
 
@@ -219,7 +219,7 @@ static Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_WriteTimerLow ( uint32 TimerLow )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_WriteTimerLow ( uint32 TimerLow )
 {
   Std_ErrorCode retVal = E_OK;
 
@@ -250,7 +250,7 @@ static Std_ErrorCode Timer_RP2040_WriteTimerLow ( uint32 TimerLow )
  * @invariant n/a
  *
  */
-static Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh )
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh )
 {
   Std_ErrorCode retVal = E_OK;
 

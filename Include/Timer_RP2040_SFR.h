@@ -24,11 +24,13 @@
 /************************************************************
   INCLUDES
 ************************************************************/
-//#include "Generic_SFR.h"
+/* #include "Generic_SFR.h" */
 #define SFR_IOS(x) ((unsigned long *)(x))
 /************************************************************
   DEFINES
 ************************************************************/
+#if !defined( VIRTUAL_TARGET )
+
 /* Base Register Address */
 #define TIMER_BASE                      0x40054000uL
 
@@ -73,11 +75,54 @@
 #define TIMER_REG_INTF                  SFR_IOS(TIMER_BASE + TIMER_REG_INTF_OFFSET)
 #define TIMER_REG_INTS                  SFR_IOS(TIMER_BASE + TIMER_REG_INTS_OFFSET)
 
+#else /* VIRTUAL TARGET */
+
+struct vtt_RP2040_Timer
+{
+  uint32 TIMEHW;
+  uint32 TIMELW;
+  uint32 TIMEHR;
+  uint32 TIMELR;
+  uint32 ALARM0;
+  uint32 ALARM1;
+  uint32 ALARM2;
+  uint32 ALARM3;
+  uint32 ARMED;
+  uint32 TIMERAWH;
+  uint32 TIMERAWL;
+  uint32 DBGPAUSE;
+  uint32 PAUSE;
+  uint32 INTR;
+  uint32 INTE;
+  uint32 INTF;
+  uint32 INTS;
+} TIMER;
+
+#define TIMER_REG_TIMEHW                &TIMER.TIMEHW
+#define TIMER_REG_TIMELW                &TIMER.TIMELW
+#define TIMER_REG_TIMEHR                &TIMER.TIMEHR
+#define TIMER_REG_TIMELR                &TIMER.TIMELR
+#define TIMER_REG_ALARM0                &TIMER.ALARM0
+#define TIMER_REG_ALARM1                &TIMER.ALARM1
+#define TIMER_REG_ALARM2                &TIMER.ALARM2
+#define TIMER_REG_ALARM3                &TIMER.ALARM3
+#define TIMER_REG_ALARMn(n)             &TIMER.ALARM0
+#define TIMER_REG_ARMED                 &TIMER.ARMED
+#define TIMER_REG_TIMERAWH              &TIMER.TIMERAWH
+#define TIMER_REG_TIMERAWL              &TIMER.TIMERAWL
+#define TIMER_REG_DBGPAUSE              &TIMER.DBGPAUSE
+#define TIMER_REG_PAUSE                 &TIMER.PAUSE
+#define TIMER_REG_INTR                  &TIMER.INTR
+#define TIMER_REG_INTE                  &TIMER.INTE
+#define TIMER_REG_INTF                  &TIMER.INTF
+#define TIMER_REG_INTS                  &TIMER.INTS
+
+#endif
+
 /* Set high to pause the timer - low to unpause. */
 #define TIMER_PAUSE_MASK                0x00000001
 #define TIMER_PAUSE_SET                 0x00000001
 #define TIMER_PAUSE_CLR                 0x00000000
-
 
 /************************************************************
   ENUMS AND TYPEDEFS

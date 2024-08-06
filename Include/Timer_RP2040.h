@@ -32,6 +32,12 @@
 #define TIMER_RP2040_ALLALARMS_BITMASK 0x0000000F
 #define TIMER_RP2040_ALLINTERRUPTS_BITMASK TIMER_RP2040_ALLALARMS_BITMASK
 
+#if !defined( VIRTUAL_TARGET )
+#define TIMER_RP2040_LOCAL static
+#else
+#define TIMER_RP2040_LOCAL 
+#endif
+
 /************************************************************
   INCLUDES
 ************************************************************/
@@ -209,7 +215,7 @@ extern Std_ErrorCode Timer_RP2040_TimerRead32 (  uint32 *  TimerLow );
  * @invariant n/a
  *
  */
-extern uint8 Timer_RP2040_CheckAlarmN (  uint8  alarmIndex );
+extern tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN (  uint8  alarmIndex );
 
 /**
  * Disables the alarm indicated by index 'alarmIndex'. rites to the TIMER_ARMED register to disarm the alarm indicated
