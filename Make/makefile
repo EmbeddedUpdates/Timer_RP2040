@@ -28,6 +28,16 @@ CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
 CFLAGS += -Wl,-map,$(MODULE_NAME)_Test.map
 CFLAGS += -DVIRTUAL_TARGET
+CFLAGS += -g
+
+# Some warnings can be ignored due to test environment
+# pointers on my development target have 64bit size, software is 
+CFLAGS += -Wno-pointer-to-int-cast
+# Some code is unreachable due to test dummys (i.e. Watchdog_RP2040.h)
+CFLAGS += -Wno-unreachable-code
+# Printf statements are not important (yet)
+CFLAGS += -Wno-incompatible-pointer-types-discards-qualifiers
+CFLAGS += -Wno-format
 
 #CFLAGS += -Wno-misleading-indentation
 
