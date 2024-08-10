@@ -25,15 +25,47 @@
   INCLUDES
 ************************************************************/
 /* #include "Generic_SFR.h" */
+#if defined (RP2040)
+#define SFR_IOS(x) ((unsigned int *)(x))
+#endif /* VIRTUAL TARGET*/
+#if defined (VIRTUAL_TARGET)
+/* Virtual target has a 64 bit memory address which is marked as type long */
 #define SFR_IOS(x) ((unsigned long *)(x))
+#endif /* VIRTUAL TARGET*/
 /************************************************************
   DEFINES
 ************************************************************/
 #if !defined( VIRTUAL_TARGET )
-
 /* Base Register Address */
 #define TIMER_BASE                      0x40054000uL
 
+#else /* VIRTUAL TARGET */
+
+typedef struct vtt_RP2040_Timer
+{
+  uint32 TIMEHW;
+  uint32 TIMELW;
+  uint32 TIMEHR;
+  uint32 TIMELR;
+  uint32 ALARM0;
+  uint32 ALARM1;
+  uint32 ALARM2;
+  uint32 ALARM3;
+  uint32 ARMED;
+  uint32 TIMERAWH;
+  uint32 TIMERAWL;
+  uint32 DBGPAUSE;
+  uint32 PAUSE;
+  uint32 INTR;
+  uint32 INTE;
+  uint32 INTF;
+  uint32 INTS;
+} tRP2040_Timer;
+
+/* Virtual Target has 64 bit word size and must be casted as such to accomodate virtual access */
+#define TIMER_BASE (uint64)&Timer_Live
+
+#endif
 /* Register Offsets */
 #define TIMER_REG_TIMEHW_OFFSET         0x00uL
 #define TIMER_REG_TIMELW_OFFSET         0x04uL
@@ -74,50 +106,6 @@
 #define TIMER_REG_INTE                  SFR_IOS(TIMER_BASE + TIMER_REG_INTE_OFFSET)
 #define TIMER_REG_INTF                  SFR_IOS(TIMER_BASE + TIMER_REG_INTF_OFFSET)
 #define TIMER_REG_INTS                  SFR_IOS(TIMER_BASE + TIMER_REG_INTS_OFFSET)
-
-#else /* VIRTUAL TARGET */
-
-struct vtt_RP2040_Timer
-{
-  uint32 TIMEHW;
-  uint32 TIMELW;
-  uint32 TIMEHR;
-  uint32 TIMELR;
-  uint32 ALARM0;
-  uint32 ALARM1;
-  uint32 ALARM2;
-  uint32 ALARM3;
-  uint32 ARMED;
-  uint32 TIMERAWH;
-  uint32 TIMERAWL;
-  uint32 DBGPAUSE;
-  uint32 PAUSE;
-  uint32 INTR;
-  uint32 INTE;
-  uint32 INTF;
-  uint32 INTS;
-} TIMER;
-
-#define TIMER_REG_TIMEHW                &TIMER.TIMEHW
-#define TIMER_REG_TIMELW                &TIMER.TIMELW
-#define TIMER_REG_TIMEHR                &TIMER.TIMEHR
-#define TIMER_REG_TIMELR                &TIMER.TIMELR
-#define TIMER_REG_ALARM0                &TIMER.ALARM0
-#define TIMER_REG_ALARM1                &TIMER.ALARM1
-#define TIMER_REG_ALARM2                &TIMER.ALARM2
-#define TIMER_REG_ALARM3                &TIMER.ALARM3
-#define TIMER_REG_ALARMn(n)             &TIMER.ALARM0
-#define TIMER_REG_ARMED                 &TIMER.ARMED
-#define TIMER_REG_TIMERAWH              &TIMER.TIMERAWH
-#define TIMER_REG_TIMERAWL              &TIMER.TIMERAWL
-#define TIMER_REG_DBGPAUSE              &TIMER.DBGPAUSE
-#define TIMER_REG_PAUSE                 &TIMER.PAUSE
-#define TIMER_REG_INTR                  &TIMER.INTR
-#define TIMER_REG_INTE                  &TIMER.INTE
-#define TIMER_REG_INTF                  &TIMER.INTF
-#define TIMER_REG_INTS                  &TIMER.INTS
-
-#endif
 
 /* Set high to pause the timer - low to unpause. */
 #define TIMER_PAUSE_MASK                0x00000001
