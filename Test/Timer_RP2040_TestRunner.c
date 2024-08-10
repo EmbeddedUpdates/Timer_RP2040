@@ -28,7 +28,31 @@
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_Init_ReturnsOK(void);
+/* Pause */
+extern void test_Pause_Pause(void);
+extern void test_Pause_ReturnsOK(void);
+extern void test_Unpause_Unpause(void);
+extern void test_Unpause_ReturnsOK(void);
+/* Timer reads */
+extern void test_ReadLow_ReturnsOK(void);
+extern void test_ReadHigh_ReturnsOK(void);
+extern void test_ReadLow_ReturnsInvalidParam_NullPointer(void);
+extern void test_ReadHigh_ReturnsInvalidParam_NullPointer(void);
+extern void test_ReadLow_ProvidesValidResult(void);
+extern void test_ReadHigh_ProvidesValidResult(void);
+extern void test_ReadTimer_ProvidesValidResultZero(void);
+extern void test_ReadTimer_ProvidesValidResultN(void);
+extern void test_ReadTimer_ProvidesValidResultOnes(void);
+extern void test_ReadTimer_FailsForInvalidPointer(void);
 
+/* Timer write */
+extern void test_WriteLow_ReturnsOK(void);
+extern void test_WriteHigh_ReturnsOK(void);
+extern void test_WriteLow_ProvidesValidResult(void);
+extern void test_WriteHigh_ProvidesValidResult(void);
+extern void test_WriteTimer_ProvidesValidResultZero(void);
+extern void test_WriteTimer_ProvidesValidResultN( void );
+extern void test_WriteTimer_ProvidesValidResultOnes( void );
 
 /*=======Test Reset Option=====*/
 void resetTest(void);
@@ -43,7 +67,36 @@ void resetTest(void)
 int main(void)
 {
   UnityBegin("test/Timer_RP2040.c");
-  RUN_TEST(test_Init_ReturnsOK, 20);
+
+  /* Init tests */
+  RUN_TEST(test_Init_ReturnsOK, 60);
+
+  /* Pause APIs */
+  RUN_TEST(test_Pause_ReturnsOK, 61);
+  RUN_TEST(test_Pause_Pause, 62);
+  RUN_TEST(test_Unpause_ReturnsOK, 62);
+  RUN_TEST(test_Unpause_Unpause, 62);
+
+  /* Read APIs */
+  RUN_TEST(test_ReadTimer_FailsForInvalidPointer, 63);
+  RUN_TEST(test_ReadLow_ReturnsOK, 63);
+  RUN_TEST(test_ReadHigh_ReturnsOK, 64);
+  RUN_TEST(test_ReadLow_ReturnsInvalidParam_NullPointer, 65);
+  RUN_TEST(test_ReadHigh_ReturnsInvalidParam_NullPointer, 66);
+  RUN_TEST(test_ReadLow_ProvidesValidResult, 67);
+  RUN_TEST(test_ReadHigh_ProvidesValidResult, 68);
+  RUN_TEST(test_ReadTimer_ProvidesValidResultZero, 69);
+  RUN_TEST(test_ReadTimer_ProvidesValidResultN, 69);
+  RUN_TEST(test_ReadTimer_ProvidesValidResultOnes, 69);
+
+  /* Write APIs */
+  RUN_TEST(test_WriteLow_ReturnsOK, 69);
+  RUN_TEST(test_WriteHigh_ReturnsOK, 70);
+  RUN_TEST(test_WriteTimer_ProvidesValidResultZero, 71);
+  RUN_TEST(test_WriteTimer_ProvidesValidResultN, 72);
+  RUN_TEST(test_WriteTimer_ProvidesValidResultOnes, 73);
+  RUN_TEST(test_WriteLow_ProvidesValidResult, 74);
+  RUN_TEST(test_WriteHigh_ProvidesValidResult, 75);
 
   return (UnityEnd());
 }
