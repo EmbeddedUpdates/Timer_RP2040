@@ -263,7 +263,11 @@ TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh 
   /* if pre-checks are performed, write to the register. */
   if( E_OK == retVal )
   {
-    *TIMER_REG_TIMEHW = TimerHigh;
+    /* 
+      For test-cases, we have to cast TIMER_REG_TIMEHW as a uint32. 
+      Writes will fail otherwise, since SFR_IOS is 64bit length in virtual target
+    */
+    *(uint32 *)TIMER_REG_TIMEHW = TimerHigh;
   }
 
   /* No post-checks are considered for this write . */
@@ -296,6 +300,7 @@ TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh 
 Std_ErrorCode Timer_RP2040_Init ( void )
 {
   Std_ErrorCode retVal = E_OK;
+  uint32 timerInitValue = ZERO32;
 
   /* Implement pre-check with the RP2040 Watchdog */
   if( WATCHDOG_RP2040_INIT != Watchdog_RP2040_IsInit())
@@ -307,7 +312,7 @@ Std_ErrorCode Timer_RP2040_Init ( void )
   if( E_OK == retVal ){
     retVal = Timer_RP2040_Pause();
     if( E_OK == retVal ){
-      retVal = Timer_RP2040_TimerWrite(ZERO32, ZERO32);
+      retVal = Timer_RP2040_TimerWrite(&timerInitValue, &timerInitValue);
     }
   }
 
