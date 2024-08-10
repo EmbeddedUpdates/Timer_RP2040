@@ -38,6 +38,10 @@
 ************************************************************/
 TIMER_RP2040_LOCAL tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
 
+TIMER_RP2040_LOCAL const tRP2040_Timer Timer_Uninit = { 0 };
+
+TIMER_RP2040_LOCAL volatile tRP2040_Timer Timer_Live;
+
 /************************************************************
   LOCAL FUNCTIONS
 ************************************************************/
