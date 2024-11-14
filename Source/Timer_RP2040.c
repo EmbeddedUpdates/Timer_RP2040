@@ -436,12 +436,11 @@ Std_ErrorCode Timer_RP2040_InterruptEnable (  uint32 bmp_intEnable )
   /* Write to the INTE register with the bitmask */
   if( E_OK == retVal )
   {
-    *TIMER_REG_INTE = bmp_intEnable;
+    *TIMER_REG_INTE = (*TIMER_REG_INTE | bmp_intEnable);
   }
 
   return retVal;
 }
-
 
 /**
  * Disables interrupts for the ALARMS given by the bitmask parameter.
@@ -485,10 +484,73 @@ Std_ErrorCode Timer_RP2040_InterruptDisable (  uint8  bmp_intDisable )
   if( E_OK == retVal )
   {
     /* bitmap must be inverted to write '0' to disable. */
-    *TIMER_REG_INTE = (~(bmp_intDisable));
+    *TIMER_REG_INTE = *TIMER_REG_INTE & (~((uint32)bmp_intDisable));
   }
 
   return retVal;
+}
+
+/**
+ * Forces an interrupt flag to be set
+ * @param intToTrigger: char
+ *
+ * @return 
+ *         0: 'E_OK' if successful 
+ *         1: 'E_NOT_OK' if the operation is not successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ *         3: 'E_MODULE_UNINIT' if the timer is not yet initialized
+ *
+ * @pre Timer module was previously enabled.
+ * @post Interrupts are enabled.
+ * @invariant n/a
+ *
+ */
+Std_ErrorCode Timer_RP2040_InterruptNTrigger (  uint8 intToTrigger )
+{
+  Std_ErrorCode retVal = E_OK;
+  if(ALARM_MAX_INDEX < intToTrigger)
+  {
+    retVal = E_INVALID_PARAM;
+  }
+  else
+  {
+    *TIMER_REG_INTF = (*TIMER_REG_INTF | (INT_TO_BITMAP(intToTrigger))); 
+  }
+
+  return retVal;
+}
+
+/**
+ * Forces an interrupt flag to be set
+ * @param intToTrigger: char
+ *
+ * @return 
+ *         0: 'E_OK' if successful 
+ *         1: 'E_NOT_OK' if the operation is not successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ *         3: 'E_MODULE_UNINIT' if the timer is not yet initialized
+ *
+ * @pre Timer module was previously enabled.
+ * @post Interrupts are enabled.
+ * @invariant n/a
+ *
+ */
+tTimer_RP2040_AlarmStatus Timer_RP2040_InterruptNStatusCheck (  uint8 interrupt_to_check )
+{
+  tTimer_RP2040_AlarmStatus interruptStatus = TIMER_RP2040_ALARM_FAILED;
+  if(ALARM_MAX_INDEX >= interrupt_to_check)
+  {
+    if(1 == (*TIMER_REG_INTS & (INT_TO_BITMAP(interrupt_to_check))))
+    {
+      interruptStatus = TIMER_RP2040_ALARM_TRIGGERED;
+    }
+    else
+    {
+      interruptStatus = TIMER_RP2040_ALARM_NOT_SET;
+    }
+  }
+
+  return interruptStatus;
 }
 
 
@@ -648,7 +710,11 @@ tTimer_RP2040_AlarmStatus Timer_RP2040_CheckAlarmN ( uint8 alarmIndex )
     else
     {
       /* If there is a value in the alarm register, we know its not yet been triggered. */
-      retVal = TIMER_RP2040_ALARM_SET_NOT_TRIGGERED;
+      /* It could not be cleared - so we should check the armed register */
+      if((*TIMER_REG_ARMED & (INT_TO_BITMAP(alarmIndex))) == (INT_TO_BITMAP(alarmIndex)))
+      {
+        retVal = TIMER_RP2040_ALARM_SET_NOT_TRIGGERED;
+      }
     }
   }
 
@@ -687,11 +753,11 @@ Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex )
   if( E_OK == retVal )
   {
     /* The alarm index is ok, so we can write to the register */
-    *TIMER_REG_ALARMn(alarmIndex) = ZERO32;
+    *(uint32 *)TIMER_REG_ALARMn(alarmIndex) = ZERO32;
+    *TIMER_REG_ARMED &= 1 << alarmIndex;
   }
   
   return retVal;
-
 }
 
 /**
@@ -733,3 +799,31 @@ Std_ErrorCode Timer_RP2040_ArmAlarmN (  uint8  alarmIndex, uint32 triggerTime )
   
   return retVal;
 }
+
+/**
+ * Clear timer interrupt N
+ * @param interruptIndex: Index of the interrupt to be cleared (0:3)
+ * 
+ * @return
+ *         0: 'E_OK' if successful 
+ *         1: 'E_NOT_OK' if the operation is not successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ * 
+ */
+Std_ErrorCode Timer_RP2040_InterruptClearN( uint8 interruptIndex )
+{
+  Std_ErrorCode retVal = E_OK;
+  if(interruptIndex > ALARM_MAX_INDEX)
+  {
+    retVal = E_INVALID_PARAM;
+  }
+
+  if(E_OK == retVal)
+  {
+    *TIMER_REG_INTR = (*TIMER_REG_INTR | INT_TO_BITMAP(interruptIndex));
+  }
+
+  return retVal;
+}
+
+

@@ -143,7 +143,10 @@ extern Std_ErrorCode Timer_RP2040_InterruptEnable ( uint32 bmp_intEnable );
  * @invariant n/a
  *
  */
-extern Std_ErrorCode Timer_RP2040_InterruptDisable (  uint8  bmp_intDisable );
+extern Std_ErrorCode Timer_RP2040_InterruptDisable ( uint8  bmp_intDisable );
+
+extern Std_ErrorCode Timer_RP2040_InterruptNTrigger ( uint8 intToTrigger );
+extern tTimer_RP2040_AlarmStatus Timer_RP2040_InterruptNStatusCheck (  uint8 interrupt_to_check );
 
 /**
  * Reads from TIMER_TIMELR and TIMER_TIMEHR. Is not threadsafe - future improvements can be made by utilizing the RAWL
@@ -253,3 +256,16 @@ extern Std_ErrorCode Timer_RP2040_DisarmAlarmN (  uint8  alarmIndex );
  *
  */
 extern Std_ErrorCode Timer_RP2040_ArmAlarmN (  uint8  alarmIndex, uint32 triggerTime );
+
+/**
+ * Clear timer interrupt N
+ * @param interruptIndex: Index of the interrupt to be cleared (0:3)
+ * 
+ * @return
+ *         0: 'E_OK' if successful 
+ *         1: 'E_NOT_OK' if the operation is not successful 
+ *         2: 'E_PARAM' if the input parameter is not valid 
+ * 
+ */
+extern Std_ErrorCode Timer_RP2040_InterruptClearN( uint8 interruptIndex );
+

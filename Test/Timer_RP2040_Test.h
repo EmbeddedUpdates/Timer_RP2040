@@ -22,6 +22,3 @@ extern Std_ErrorCode Timer_RP2040_ReadTimerHigh ( uint32 * TimerHigh );
 
 extern Std_ErrorCode Timer_RP2040_WriteTimerLow ( uint32 TimerLow );
 extern Std_ErrorCode Timer_RP2040_WriteTimerHigh ( uint32 TimerHigh );
-
-extern Std_ErrorCode Timer_RP2040_TimerWrite (  uint32 *  TimerHigh,  uint32 *  TimerLow );
-

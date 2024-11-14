@@ -27,7 +27,11 @@
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
+
+/* INIT */
 extern void test_Init_ReturnsOK(void);
+extern void test_Init_ReturnsOK_ClearsTIMEHRandTIMELR(void);
+
 /* Pause */
 extern void test_Pause_Pause(void);
 extern void test_Pause_ReturnsOK(void);
@@ -51,8 +55,63 @@ extern void test_WriteHigh_ReturnsOK(void);
 extern void test_WriteLow_ProvidesValidResult(void);
 extern void test_WriteHigh_ProvidesValidResult(void);
 extern void test_WriteTimer_ProvidesValidResultZero(void);
-extern void test_WriteTimer_ProvidesValidResultN( void );
-extern void test_WriteTimer_ProvidesValidResultOnes( void );
+extern void test_WriteTimer_ProvidesValidResultN(void);
+extern void test_WriteTimer_ProvidesValidResultOnes(void);
+
+/* Alarm Reads */
+extern void test_Alarm_CheckAlarm_0NotSet(void);
+extern void test_Alarm_CheckAlarm_nNotSet(void);
+extern void test_Alarm_CheckAlarm_0Set(void);
+extern void test_Alarm_CheckAlarm_nSet(void);
+extern void test_Alarm_CheckAlarm_0Triggered(void);
+extern void test_Alarm_CheckAlarm_nTriggered(void);
+extern void test_Alarm_CheckAlarm_InvalidIndex(void);
+
+/* Alarm Writes */
+extern void test_Alarm_SetAlarm0_With0_Fails(void);
+extern void test_Alarm_SetAlarm0_WithN(void);
+extern void test_Alarm_SetAlarm0_WithOnes(void);
+extern void test_Alarm_SetAlarmN_With0_Fails(void);
+extern void test_Alarm_SetAlarmN_WithN(void);
+extern void test_Alarm_SetAlarmN_WithOnes(void);
+extern void test_Alarm_SetAlarmN_InvalidIndex_Fails(void);
+
+/* Alarm Disarms */
+extern void test_Alarm_DisarmAlarm_0WasNotSetStillNotSet(void);
+extern void test_Alarm_DisarmAlarm_0WasSetIsNotSet(void);
+extern void test_Alarm_DisarmAlarm_nWasNotSetStillNotSet(void);
+extern void test_Alarm_DisarmAlarm_nWasSetIsNotSet(void);
+extern void test_Alarm_DisarmAlarm_0WasNotSetStillNotSet_nNotTouched(void);
+extern void test_Alarm_DisarmAlarm_0WasSetIsNotSet_nNotTouched(void);
+
+/* TIMERAW reads */
+extern void test_TIMERAW_ReadTIMERAWL_ReturnsOK(void);
+extern void test_TIMERAW_ReadTIMERAWL_ReturnsOKWithN(void);
+
+/* INTR */ /* INTR is Raw Interrupts - this must be written to to service an interrupt */
+extern void test_Interrupt_InterruptClear_ReturnsOK(void);
+extern void test_Interrupt_InterruptClear_ReturnsInvalidParam(void);
+extern void test_Interrupt_InterruptClear_ClearsInterrupt(void);
+extern void test_Interrupt_InterruptClear_ClearsInterruptDoesNotClearOthers(void);
+
+/* INTE */ /* INTE is Interrupt Enable Mask */
+extern void test_Interrupt_InterruptEnable_ReturnsOK(void);
+extern void test_Interrupt_InterruptEnable_EnablesInterrupt(void);
+extern void test_Interrupt_InterruptEnable_EnablesInterruptWithoutTouchingOthers(void);
+extern void test_Interrupt_InterruptDisable_ReturnsOK(void);
+extern void test_Interrupt_InterruptDisable_DisablesInterrupt(void);
+extern void test_Interrupt_InterruptDisable_DisablesInterruptWithoutTouchingOthers(void);
+
+/* INTF */ /* INTF is Interrupt Force - we can write to this to trigger the interrupt */
+extern void test_Interrupt_InterruptTrigger_ReturnsOK(void);
+extern void test_Interrupt_InterruptTrigger_SetsInterrupt(void);
+extern void test_Interrupt_InterruptTrigger_SetsInterruptWithoutTouchingOthers(void);
+extern void test_Interrupt_InterruptTrigger_ReturnsInvalidParam(void);
+
+/* INTS */ /* INTS is a read only register - for polling use case */
+extern void test_Interrupt_InterruptCheck_ReturnsFailed(void);
+extern void test_Interrupt_InterruptCheck_IsSet(void);
+extern void test_Interrupt_InterruptCheck_IsNotSet(void);
 
 /*=======Test Reset Option=====*/
 void resetTest(void);
@@ -69,15 +128,16 @@ int main(void)
   UnityBegin("test/Timer_RP2040.c");
 
   /* Init tests */
-  RUN_TEST(test_Init_ReturnsOK, 60);
+  RUN_TEST(test_Init_ReturnsOK, 102);
+  RUN_TEST(test_Init_ReturnsOK_ClearsTIMEHRandTIMELR, 103);
 
   /* Pause APIs */
-  RUN_TEST(test_Pause_ReturnsOK, 61);
-  RUN_TEST(test_Pause_Pause, 62);
-  RUN_TEST(test_Unpause_ReturnsOK, 62);
-  RUN_TEST(test_Unpause_Unpause, 62);
+  RUN_TEST(test_Pause_ReturnsOK, 106);
+  RUN_TEST(test_Pause_Pause, 107);
+  RUN_TEST(test_Unpause_ReturnsOK, 108);
+  RUN_TEST(test_Unpause_Unpause, 109);
 
-  /* Read APIs */
+  /* Read Timer APIs */
   RUN_TEST(test_ReadTimer_FailsForInvalidPointer, 63);
   RUN_TEST(test_ReadLow_ReturnsOK, 63);
   RUN_TEST(test_ReadHigh_ReturnsOK, 64);
@@ -89,7 +149,7 @@ int main(void)
   RUN_TEST(test_ReadTimer_ProvidesValidResultN, 69);
   RUN_TEST(test_ReadTimer_ProvidesValidResultOnes, 69);
 
-  /* Write APIs */
+  /* Write Timer APIs */
   RUN_TEST(test_WriteLow_ReturnsOK, 69);
   RUN_TEST(test_WriteHigh_ReturnsOK, 70);
   RUN_TEST(test_WriteTimer_ProvidesValidResultZero, 71);
@@ -97,6 +157,61 @@ int main(void)
   RUN_TEST(test_WriteTimer_ProvidesValidResultOnes, 73);
   RUN_TEST(test_WriteLow_ProvidesValidResult, 74);
   RUN_TEST(test_WriteHigh_ProvidesValidResult, 75);
+
+  /* Check Alarm */
+  RUN_TEST(test_Alarm_CheckAlarm_0NotSet, 76);
+  RUN_TEST(test_Alarm_CheckAlarm_nNotSet, 77);
+  RUN_TEST(test_Alarm_CheckAlarm_0Set, 78);
+  RUN_TEST(test_Alarm_CheckAlarm_nSet, 79);
+  RUN_TEST(test_Alarm_CheckAlarm_0Triggered, 80);
+  RUN_TEST(test_Alarm_CheckAlarm_nTriggered, 81);
+  RUN_TEST(test_Alarm_CheckAlarm_InvalidIndex, 82);
+
+  /* Alarm Writes */
+  RUN_TEST(test_Alarm_SetAlarm0_With0_Fails, 20);
+  RUN_TEST(test_Alarm_SetAlarm0_WithN, 20);
+  RUN_TEST(test_Alarm_SetAlarm0_WithOnes, 20);
+  RUN_TEST(test_Alarm_SetAlarmN_With0_Fails, 20);
+  RUN_TEST(test_Alarm_SetAlarmN_WithN, 20);
+  RUN_TEST(test_Alarm_SetAlarmN_WithOnes, 20);
+  RUN_TEST(test_Alarm_SetAlarmN_InvalidIndex_Fails, 20);
+
+  /* Alarm Dirms */
+  RUN_TEST(test_Alarm_DisarmAlarm_0WasNotSetStillNotSet, 20);
+  RUN_TEST(test_Alarm_DisarmAlarm_0WasSetIsNotSet, 20);
+  RUN_TEST(test_Alarm_DisarmAlarm_nWasNotSetStillNotSet, 20);
+  RUN_TEST(test_Alarm_DisarmAlarm_nWasSetIsNotSet, 20);
+  RUN_TEST(test_Alarm_DisarmAlarm_0WasNotSetStillNotSet_nNotTouched, 20);
+  RUN_TEST(test_Alarm_DisarmAlarm_0WasSetIsNotSet_nNotTouched, 20);
+
+  /* TIMERAW reads */
+  RUN_TEST(test_TIMERAW_ReadTIMERAWL_ReturnsOK, 21);
+  RUN_TEST(test_TIMERAW_ReadTIMERAWL_ReturnsOKWithN, 21);
+
+  /* INTR */ /* INTR is Raw Interrupts - this must be written to to service an interrupt */
+  RUN_TEST(test_Interrupt_InterruptClear_ReturnsOK, 22);
+  RUN_TEST(test_Interrupt_InterruptClear_ReturnsInvalidParam, 23);
+  RUN_TEST(test_Interrupt_InterruptClear_ClearsInterrupt, 23);
+  RUN_TEST(test_Interrupt_InterruptClear_ClearsInterruptDoesNotClearOthers, 24);
+
+  /* INTE */ /* INTE is Interrupt Enable Mask */
+  RUN_TEST(test_Interrupt_InterruptEnable_ReturnsOK, 25);
+  RUN_TEST(test_Interrupt_InterruptEnable_EnablesInterrupt, 25);
+  RUN_TEST(test_Interrupt_InterruptEnable_EnablesInterruptWithoutTouchingOthers, 25);
+  RUN_TEST(test_Interrupt_InterruptDisable_ReturnsOK, 25);
+  RUN_TEST(test_Interrupt_InterruptDisable_DisablesInterrupt, 25);
+  RUN_TEST(test_Interrupt_InterruptDisable_DisablesInterruptWithoutTouchingOthers, 25);
+
+  /* INTF */ /* INTF is Interrupt Force - we can write to this to trigger the interrupt */
+  RUN_TEST(test_Interrupt_InterruptTrigger_ReturnsOK, 26);
+  RUN_TEST(test_Interrupt_InterruptTrigger_SetsInterrupt, 26);
+  RUN_TEST(test_Interrupt_InterruptTrigger_SetsInterruptWithoutTouchingOthers, 26);
+  RUN_TEST(test_Interrupt_InterruptTrigger_ReturnsInvalidParam, 27);
+
+  /* INTS */ /* INTS is a read only register - for polling use case */
+  RUN_TEST(test_Interrupt_InterruptCheck_ReturnsFailed, 27);
+  RUN_TEST(test_Interrupt_InterruptCheck_IsSet, 27);
+  RUN_TEST(test_Interrupt_InterruptCheck_IsNotSet, 27);
 
   return (UnityEnd());
 }
