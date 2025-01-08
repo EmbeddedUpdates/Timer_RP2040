@@ -33,14 +33,20 @@
   ENUMS AND TYPEDEFS
 ************************************************************/
 
+
 /************************************************************
   LOCAL VARIABLES
 ************************************************************/
 TIMER_RP2040_LOCAL tTimer_RP2040_Status Timer_RP2040_Status = TIMER_RP2040_UNINIT;
 
+#if defined ( VIRTUAL_TARGET )
+
 TIMER_RP2040_LOCAL const tRP2040_Timer Timer_Uninit = { 0 };
 
 TIMER_RP2040_LOCAL volatile tRP2040_Timer Timer_Live;
+
+#endif /* VIRTUAL_TARGET */
+
 
 /************************************************************
   LOCAL FUNCTIONS
