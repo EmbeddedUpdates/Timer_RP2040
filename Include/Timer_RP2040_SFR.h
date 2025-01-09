@@ -37,7 +37,7 @@
 ************************************************************/
 #if !defined( VIRTUAL_TARGET )
 /* Base Register Address */
-#define TIMER_BASE                      0x40054000uL
+#define TIMER_BASE                      0x40054000uL  /* d 1074085888 */
 
 #else /* VIRTUAL TARGET */
 
