@@ -131,6 +131,22 @@ TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_Unpause ( void )
   return retVal;
 }
 
+TIMER_RP2040_LOCAL Std_ErrorCode Timer_RP2040_nodebugpause ( void )
+{
+  Std_ErrorCode retVal = E_OK;
+
+  /* No prechecks are performed for the write - so that the unpause may be performed even during init */
+
+
+  /* if pre-checks are performed, lets do the actual unpause. */
+  if( E_OK == retVal )
+  {
+    *TIMER_REG_DBGPAUSE = (0);
+  }
+  
+  return retVal;
+}
+
 /**
  * Reads from TIMER_TIMELR register. Reports bits {31:0} in the out buffer 'TimerLow'.
  * @param TimerLow: Output buffer for TIMEL read
@@ -331,6 +347,7 @@ Std_ErrorCode Timer_RP2040_Init ( void )
   /* First lets unpause the timer */
   if( E_OK == retVal ){
     retVal = Timer_RP2040_Unpause();
+    retVal = Timer_RP2040_nodebugpause();
   }
 
   /* If everything was successful, lets update the init status. */
