@@ -24,7 +24,6 @@
 /************************************************************
   INCLUDES
 ************************************************************/
-/* #include "Generic_SFR.h" */
 #if defined (RP2040)
 #define SFR_IOS(x) ((unsigned int *)(x))
 #endif /* VIRTUAL TARGET*/
@@ -61,11 +60,11 @@ typedef struct vtt_RP2040_Timer
   uint32 INTF;
   uint32 INTS;
 } tRP2040_Timer;
-
 /* Virtual Target has 64 bit word size and must be casted as such to accomodate virtual access */
 #define TIMER_BASE (uint64)&Timer_Live
+#endif /* VIRTUAL_TARGET */
 
-#endif
+
 /* Register Offsets */
 #define TIMER_REG_TIMEHW_OFFSET         0x00uL
 #define TIMER_REG_TIMELW_OFFSET         0x04uL
